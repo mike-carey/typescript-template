@@ -1,0 +1,42 @@
+# Brewfile does not actually use the lock and will update
+# the dependencies everytime no matter what
+Brewfile.lock.json
+
+# Direnv storage
+.direnv/
+
+# Environment variables
+.env
+
+# Common build directories
+build/
+dist/
+out/
+tmp/
+
+# Archive files
+*.gz
+*.bak
+*.log
+*.tar
+*.tmp
+*.tgz
+*.zip
+*.deb
+*.rpm
+*.pkg
+
+# Mac OS files
+.DS_Store
+._*
+.Trashes/
+
+# Linux files
+*~
+*.swp
+
+# Windows files
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk

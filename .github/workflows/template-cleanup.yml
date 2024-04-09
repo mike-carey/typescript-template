@@ -1,0 +1,46 @@
+###
+# Cleans up template specific files
+##
+---
+name: 'Template Cleanup'
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  cleanup:
+    name: 'Template Cleanup'
+    runs-on: ubuntu-latest
+    if: "! endsWith(github.event.repository.name, '-template')"
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v4
+
+      # The cleanup task is intended to change/remove any files that are specific to the template that should be different in the child repository.
+      - name: 'Cleanup'
+        env:
+          REPOSITORY: ${{ github.event.repository.name }}
+          GH_TOKEN: ${{ github.token }} # for gh commands
+        run: .template-cleanup/run.sh
+
+      # Create pull request
+      - name: 'Create Pull Request'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: github/template-cleanup
+          base: main
+          committer: "GitHub Actions <action@github.com>"
+          commit-message: Template cleanup
+          title: Cleans up template-specific configurations
+          body: Please review the changes and confirm that everything looks correct.

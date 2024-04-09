@@ -1,0 +1,8 @@
+# vi:syntax=ignore
+# @see https://github.com/AndreasAugustin/actions-template-sync
+
+.github/workflows/template-sync.yml
+.gitignore
+.envrc
+Brewfile
+README.md

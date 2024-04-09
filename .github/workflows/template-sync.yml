@@ -1,0 +1,33 @@
+# Syncs files from the parent template
+---
+name: 'Template Sync'
+
+on:
+  # Run at midnight on the 1st of every month
+  schedule:
+    - cron: '0 0 1 * *'
+  # Can be triggered manually
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  template-sync:
+    name: 'Template Sync'
+    runs-on: ubuntu-latest
+    if: github.event.repository.name != 'base-template'
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v4
+
+      - name: 'Sync from template'
+        uses: AndreasAugustin/actions-template-sync@v2
+        with:
+          source_repo_path: mike-carey/base-template
+          is_dry_run: true
